@@ -21,7 +21,7 @@ export PS1='\u@\h:$PWD \$ '
 alias 'gs'='git status'
 alias 'gb'='git branch -a'
 alias 'gl' ="git log --graph --pretty=format:'%Cred%h%Creset %C(green)【%an】%C(yellow)%d%Creset %s (%ci)%Creset' `git rev-parse --abbrev-ref HEAD`"
-alias 'glme'="git log --graph --pretty=format:'%Cred%h%Creset %C(green)【%an】%C(yellow)%d%Creset %s (%ci)%Creset' --author=`git config --list | grep user.name | awk -F= '{print$2}'`"
+alias 'mygl'="git log --graph --pretty=format:'%Cred%h%Creset %C(green)【%an】%C(yellow)%d%Creset %s (%ci)%Creset' `git config --list | grep user.name | awk -F= '{print"--author="$2}' | xargs`"
 
 alias 'gpull'="git pull --no-edit origin `git rev-parse --abbrev-ref HEAD`"
 alias 'gpush'="git push origin `git rev-parse --abbrev-ref HEAD`"
