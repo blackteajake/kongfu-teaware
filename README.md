@@ -3,6 +3,11 @@
 
 ### 用法展示
 
+- calc
+- lc sh dart java kt
+- 
+- 
+
 
 
 
@@ -11,11 +16,12 @@
 
 - Mac
 
-在`~/.bash_profile`文件末尾，添加这一行：
+  在`~/.bash_profile`文件末尾，添加这一行：
 
-```shell
-source /path/to/bash_kongfu_teaware.sh
-```
+  ```shell
+  source /path/to/bash_kongfu_teaware.sh
+  ```
 
+- Ubuntu
 
-
+- 
