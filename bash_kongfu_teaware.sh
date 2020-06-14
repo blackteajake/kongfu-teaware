@@ -6,10 +6,20 @@
 #################################################################
 
 #################################################################
-# 环境配置相关
-# 命令行提示符显示当前目录的全路径，如：JK@jkmac:/Users/jk/mygithub $
+# 环境及shell使用相关
 #################################################################
+# 命令行提示符显示当前目录的全路径，如：JK@jkmac:/Users/jk/mygithub $
 export PS1='\u@\h:$PWD \$ '
+
+# 为ls输出增加颜色
+alias 'ls'='ls -G'
+alias 'll'='ls -G -l'
+
+#################################################################
+# 网络相关
+# ip  查看本机IP
+#################################################################
+alias 'ip'="ifconfig | grep 'status: active' -B 5 | grep netmask | xargs | awk '{print \$2}'"
 
 #################################################################
 # Git 相关的命令：
@@ -31,8 +41,13 @@ mygl() {
   git log --graph --pretty=format:'%Cred%h%Creset %C(green)【%an】%C(yellow)%d%Creset %s (%ci)%Creset' $(git config --list | grep user.name | awk -F= '{print"--author="$2}' | xargs)
 }
 
-alias 'gpull'="git pull --no-edit origin $(git rev-parse --abbrev-ref HEAD)"
-alias 'gpush'="git push origin $(git rev-parse --abbrev-ref HEAD)"
+gpull() {
+  git pull --no-edit origin $(git rev-parse --abbrev-ref HEAD)
+}
+
+gpush() {
+  git push origin $(git rev-parse --abbrev-ref HEAD)
+}
 
 #git status 能正确显示中文
 git config --global core.quotepath false
@@ -40,8 +55,19 @@ git config --global core.quotepath false
 #################################################################
 # 文件copy、scp、rsync等操作，数据备份相关
 # scp-continue  使用跟scp，但支持断点续传
+# find-zip      将find的输出zip成一个包，用法如：
+#               find-zip ./ -name "*.doc" ~/doc.zip
+#               将当前目录下的doc文件压缩成 ～/doc.zip
 #################################################################
-alias 'scp-continue'="rsync -P -e ssh "
+alias 'scp-continue'='rsync -P -e ssh'
+
+find-zip() {
+  # 除最后那个参数
+  findArg=${@:1:$#-1}
+  # 最后那个参数
+  zipOut=${@: -1}
+  find $findArg -print | zip -r9 $zipOut -@
+}
 
 #################################################################
 # 计算相关
@@ -58,7 +84,7 @@ calc() {
 lc-dart() {
   path="${1:-.}"
   echo $path
-  find $path -type f \( -name "*.sh" -o -name "*.dart" \) \
+  find $path -type f -name "*.dart" \
     -not -path "*/build/*" \
     -not -path "*/\.*" \
     -exec grep -cve '^\s*$' {} \; | awk '{sum+=$1}END{print sum}'
@@ -67,9 +93,32 @@ lc-dart() {
 lc-android() {
   path="${1:-.}"
   echo $path
-  find $path -type f \( -name "*.sh" -o -name "*.java" -o -name "*.kt" \) \
+  find $path -type f \( -name "*.java" -o -name "*.kt" \) \
     -not -path "*/build/*" \
     -not -path "*/\.*" \
     -not -path "*/node_modules/*" \
     -exec grep -cve '^\s*$' {} \; | awk '{sum+=$1}END{print sum}'
 }
+
+lc-ios() {
+  path="${1:-.}"
+  echo $path
+  find $path -type f \( -name "*.h" -o -name "*.m" -o -name "*.mm" -o -name "*.swift" \) \
+    -not -path "*/build/*" \
+    -not -path "*/\.*" \
+    -not -path "*/node_modules/*" \
+    -exec grep -cve '^\s*$' {} \; | awk '{sum+=$1}END{print sum}'
+}
+
+lc-cpp() {
+  path="${1:-.}"
+  echo $path
+  find $path -type f \( -name "*.h" -o -name "*.hpp" -o -name "*.c" -o -name "*.cpp" \) \
+    -not -path "*/build/*" \
+    -not -path "*/\.*" \
+    -exec grep -cve '^\s*$' {} \; | awk '{sum+=$1}END{print sum}'
+}
+
+#################################################################
+# 格式规范、格式转换相关
+#################################################################
