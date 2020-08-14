@@ -11,24 +11,14 @@
 # 命令行提示符显示当前目录的全路径，如：JK@jkmac:/Users/jk/mygithub $
 export PS1='\u@\h:$PWD \$ '
 
-# 为ls输出增加颜色
-alias 'ls'='ls -G'
-alias 'll'='ls -G -l'
-
-#################################################################
-# 网络相关
-# ip  查看本机IP
-#################################################################
-alias 'ip'="ifconfig | grep 'status: active' -B 5 | grep netmask | xargs | awk '{print \$2}'"
-
 #################################################################
 # Git 相关的命令：
-# gs    是git status的缩写，这个命令使用太频繁了
-# gb    是git branch的缩写，列出所有分支
-# gl    是git log的缩写，用颜色和图形化显示当前分支的commit log
-# mygl  是my git log的缩写，只显示自己的commit log
-# gpull 是git pull的缩写，拉取当前分支的origin远端代码，不弹出编辑器
-# gpush 是git push的缩写，推送当前分支代码到origin远端
+# gs    : git status 的缩写，这个命令使用太频繁了
+# gb    : git branch 的缩写，列出所有分支
+# gl    : git log 的缩写，用颜色和图形化显示当前分支的commit log
+# mygl  : my git log 的缩写，只显示自己的commit log
+# gpull : git pull 的缩写，拉取当前分支的origin远端代码，不弹出编辑器
+# gpush : git push 的缩写，推送当前分支代码到origin远端
 #################################################################
 alias 'gs'='git status'
 alias 'gb'='git branch -a'
@@ -47,6 +37,11 @@ gpull() {
 
 gpush() {
   git push origin $(git rev-parse --abbrev-ref HEAD)
+}
+
+gcommit() {
+  m=${1:-"no comment"}
+  git commit -a -m $m
 }
 
 #git status 能正确显示中文
