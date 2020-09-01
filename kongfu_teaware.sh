@@ -19,6 +19,7 @@ export PS1='\u@\h:$PWD \$ '
 # mygl  : my git log 的缩写，只显示自己的commit log
 # gpull : git pull 的缩写，拉取当前分支的origin远端代码，不弹出编辑器
 # gpush : git push 的缩写，推送当前分支代码到origin远端
+# gpush -a : 同gpush，但自动添加文件、commit后再push
 #################################################################
 alias 'gs'='git status'
 alias 'gb'='git branch -a'
@@ -36,12 +37,8 @@ gpull() {
 }
 
 gpush() {
+  [[ "$1" == "-a" ]] && git add -A && git commit -m "${2:-no comment}"
   git push origin $(git rev-parse --abbrev-ref HEAD)
-}
-
-gcommit() {
-  m=${1:-"no comment"}
-  git commit -a -m $m
 }
 
 #git status 能正确显示中文
